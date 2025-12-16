@@ -9,7 +9,7 @@
         body { font-family: sans-serif; background-color: #f0f2f5; color: #1c1e21; padding: 20px; }
         .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
         label { margin-bottom: 5px; font-weight: bold; }
-        input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
         button { 
             width: 100%; padding: 15px; background-color: #0088cc; 
             color: white; border: none; border-radius: 8px; 
@@ -20,8 +20,15 @@
 <body>
     <h2>📦 Добавить товар</h2>
     <div class="form-group">
+        <label>Категория</label>
+        <select id="category">
+            <option value="male">Мужская обувь 👞</option>
+            <option value="female">Женская обувь 👠</option>
+        </select>
+    </div>
+    <div class="form-group">
         <label>Название</label>
-        <input type="text" id="name" placeholder="Например: Кроссовки Nike">
+        <input type="text" id="name" placeholder="Например: Nike Air Max">
     </div>
     <div class="form-group">
         <label>Артикул</label>
@@ -35,27 +42,27 @@
         <label>Ссылка на фото</label>
         <input type="text" id="photo" placeholder="https://...">
     </div>
-    <button id="main_button">Отправить на проверку</button>
+    <button id="main_button">Отправить боту</button>
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на всё окно
+        tg.expand();
 
         document.getElementById("main_button").onclick = function() {
             let data = {
+                category: document.getElementById("category").value,
                 name: document.getElementById("name").value,
                 articul: document.getElementById("articul").value,
                 price_info: document.getElementById("price").value,
                 photo: document.getElementById("photo").value
             };
             
-            // Простая проверка на пустые поля
             if(!data.name || !data.price_info) {
-                alert("Пожалуйста, заполните название и цену!");
+                alert("Заполните название и цену!");
                 return;
             }
 
-            tg.sendData(JSON.stringify(data)); // Отправляем данные боту
+            tg.sendData(JSON.stringify(data));
         };
     </script>
 </body>
